@@ -18,7 +18,7 @@ export function fulfill(res: Response, response: express.Response) {
     if (contentType.startsWith("application/json")) {
         res.json()
             .then(json => response.status(res.status).send(json))
-            .catch(err => response.status(500).send(err));
+            .catch(err => response.status(500).send(err.message));
         return;
     }
 
