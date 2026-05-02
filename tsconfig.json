@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "ESNext",
+        "target": "esnext",
         "module": "commonjs",
         "outDir": "./dist",
         "rootDir": "src",
@@ -10,7 +10,7 @@
         "skipLibCheck": true,
         "types": ["jest", "node"],
         "paths": {
-            "@/*": ["./src/main/*"]
+            "@/*": ["src/main/*"]
         }
     },
     "include": [
