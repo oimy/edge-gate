@@ -1,10 +1,10 @@
 import {EndpointMatchStrategy} from "@/service/endpoint/match/strategy";
-import {EndpointMethod} from "../../models";
+import {Endpoint, EndpointMethod} from "../../models";
 
 class PathNode {
     children: Map<string, PathNode> = new Map();
-    isEnd: boolean = false;
     hasVariable: boolean = false;
+    endpoint: Endpoint | undefined = undefined;
 }
 
 class PathTree {
@@ -25,16 +25,16 @@ const VARIABLE = "@var";
 export class TreeEndpointMatchStrategy implements EndpointMatchStrategy {
     private trees: PathTree[] = new Array<PathTree>(128);
 
-    match(index: number, method: EndpointMethod, path: string): boolean {
+    match(index: number, method: EndpointMethod, path: string): Endpoint | undefined {
         const parts: string[] = path.split('/');
         if (parts.length === 0 || parts.some(part => !part)) {
-            return false;
+            return undefined;
         }
 
         const tree: PathTree | undefined = this.trees[index];
-        if (!tree) return false;
+        if (!tree) return undefined;
         let node: PathNode | undefined = tree.getPath(method.valueOf());
-        if (!node) return false;
+        if (!node) return undefined;
 
         for (const part of parts) {
             const childNode: PathNode | undefined = node.children.get(part);
@@ -44,21 +44,22 @@ export class TreeEndpointMatchStrategy implements EndpointMatchStrategy {
             }
             if (node.hasVariable) {
                 node = node.children.get(VARIABLE);
-                if (!node) return false;
+                if (!node) return undefined;
                 continue;
             }
-            return false;
+            return undefined;
         }
-        return node.isEnd;
+        return node.endpoint;
     }
 
-    insert(index: number, method: EndpointMethod, path: string): void {
-        const parts: string[] = path.split('/');
+    insert(endpoint: Endpoint): void {
+        const parts: string[] = endpoint.path.split('/');
         if (parts.length === 0 || parts.some(part => !part)) {
             return;
         }
-        const tree: PathTree = this.trees[index] ?? (this.trees[index] = new PathTree());
-        let node: PathNode = tree.getPath(method.valueOf()) ?? (tree.setPath(method.valueOf(), new PathNode()));
+        const tree: PathTree = this.trees[endpoint.serverSrl] ?? (this.trees[endpoint.serverSrl] = new PathTree());
+        let node: PathNode = tree.getPath(endpoint.method.valueOf()) ??
+            (tree.setPath(endpoint.method.valueOf(), new PathNode()));
 
         for (const part of parts) {
             let childNode: PathNode | undefined = node.children.get(part);
@@ -73,7 +74,7 @@ export class TreeEndpointMatchStrategy implements EndpointMatchStrategy {
             }
             node = childNode;
         }
-        node.isEnd = true;
+        node.endpoint = endpoint;
     }
 
 }

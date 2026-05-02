@@ -1,9 +1,9 @@
-import {EndpointMethod} from "@/service/endpoint/models";
+import {Endpoint, EndpointMethod} from "@/service/endpoint/models";
 
 export interface EndpointMatchStrategy {
 
-    match(index: number, method: EndpointMethod, path: string): boolean;
+    match(serverSrl: number, method: EndpointMethod, path: string): Endpoint | undefined;
 
-    insert(index: number, method: EndpointMethod, path: string): void;
+    insert(endpoint: Endpoint): void;
 
 }
