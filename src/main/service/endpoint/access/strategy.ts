@@ -1,4 +1,4 @@
-import {Endpoint, EndpointMethod} from "@/service/auth/endpoint/models";
+import {Endpoint, EndpointMethod} from "@/service/endpoint/models";
 
 
 export interface EndpointAccessStrategy {

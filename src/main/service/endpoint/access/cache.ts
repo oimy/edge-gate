@@ -1,4 +1,4 @@
-import {Endpoint, EndpointMethod, Role} from "@/service/auth/endpoint/models";
+import {Endpoint, EndpointMethod, Role} from "@/service/endpoint/models";
 
 export class EndpointRoleCache {
     private endpointAndRolesMap: Map<string, Set<string>> = new Map();

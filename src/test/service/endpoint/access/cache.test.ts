@@ -1,5 +1,5 @@
-import {EndpointRoleCache} from "@/service/auth/endpoint/access/cache";
-import {Endpoint, EndpointMethod} from "@/service/auth/endpoint/models";
+import {EndpointRoleCache} from "@/service/endpoint/access/cache";
+import {Endpoint, EndpointMethod} from "@/service/endpoint/models";
 
 describe("EndpointRoleCache", () => {
     let cache: EndpointRoleCache;

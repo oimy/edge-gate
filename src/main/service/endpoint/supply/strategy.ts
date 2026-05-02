@@ -1,4 +1,4 @@
-import {Endpoint} from "@/service/auth/endpoint/models";
+import {Endpoint} from "@/service/endpoint/models";
 
 
 export interface EndpointSupplyStrategy {

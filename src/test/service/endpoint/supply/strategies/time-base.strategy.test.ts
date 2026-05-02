@@ -1,6 +1,6 @@
-import {TimeBaseEndpointSupplyStrategy} from "@/service/auth/endpoint/supply/strategies/time-base.strategy";
-import {Endpoint} from "@/service/auth/endpoint/models";
-import {EndpointSupplyStrategy} from "@/service/auth/endpoint/supply/strategy";
+import {TimeBaseEndpointSupplyStrategy} from "@/service/endpoint/supply/strategies/time-base.strategy";
+import {Endpoint} from "@/service/endpoint/models";
+import {EndpointSupplyStrategy} from "@/service/endpoint/supply/strategy";
 
 
 jest.mock("@/configuration/api.config", () => ({

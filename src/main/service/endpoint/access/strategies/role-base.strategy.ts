@@ -1,6 +1,6 @@
-import {EndpointAccessStrategy} from "@/service/auth/endpoint/access/strategy";
-import {Endpoint, EndpointMethod} from "@/service/auth/endpoint/models";
-import {EndpointRoleCache} from "@/service/auth/endpoint/access/cache";
+import {EndpointAccessStrategy} from "@/service/endpoint/access/strategy";
+import {Endpoint, EndpointMethod} from "@/service/endpoint/models";
+import {EndpointRoleCache} from "@/service/endpoint/access/cache";
 
 class RoleBaseEndpointAccessStrategy implements EndpointAccessStrategy {
     private cache: EndpointRoleCache = new EndpointRoleCache();

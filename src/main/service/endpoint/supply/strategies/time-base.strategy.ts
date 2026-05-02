@@ -1,5 +1,5 @@
-import {Endpoint} from "@/service/auth/endpoint/models";
-import {EndpointSupplyStrategy} from "@/service/auth/endpoint/supply/strategy";
+import {Endpoint} from "@/service/endpoint/models";
+import {EndpointSupplyStrategy} from "@/service/endpoint/supply/strategy";
 import {apiConfig} from "@/configuration/api.config";
 
 const GET_FETCH_OPTIONS: RequestInit = {

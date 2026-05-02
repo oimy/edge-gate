@@ -1,6 +1,6 @@
-import UserApiSigninStrategy from "@/service/auth/signin/strategies/user-api.strategy";
+import UserApiSigninStrategy from "@/service/signin/strategies/user-api.strategy";
 import express, {Request} from "express";
-import {SignedUser, SigninResult, ValidateResult} from "@/service/auth/signin/models";
+import {SignedUser, SigninResult, ValidateResult} from "@/service/signin/models";
 import redisClient from "@/redis/client";
 
 jest.mock("@/redis/client", () => ({
