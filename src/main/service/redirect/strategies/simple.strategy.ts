@@ -59,7 +59,7 @@ export class SimpleRedirectStrategy implements RedirectStrategy {
 
         return {
             server: rawPath.substring(0, mainIndex),
-            main: rawPath.substring(mainIndex),
+            main: rawPath.substring(mainIndex + 1),
         };
     };
 

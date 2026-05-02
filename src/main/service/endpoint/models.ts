@@ -3,7 +3,7 @@ export interface Role {
 }
 
 export enum EndpointMethod {
-    GET, POST, PUT, DELETE, PATCH
+    GET = 0, POST = 1, PUT = 2, DELETE = 3, PATCH = 4
 }
 
 export interface Endpoint {
