@@ -1,60 +1,21 @@
 import express from "express";
-import {throwIfNotOk} from "../../common/handlers";
-import redisClient from "../../../redis/client";
+import {SigninStrategy} from "./strategy";
+import UserApiSigninStrategy from "./strategies/user-api.strategy";
+import {SigninResult, ValidateResult} from "./models";
 
-export default (request: express.Request, response: express.Response) => {
-    if (!request.body || !request.body.username || !request.body.password) {
-        return response.status(400).send();
+const SIGNIN_STRATEGY: SigninStrategy = new UserApiSigninStrategy();
+
+export default async (request: express.Request, response: express.Response): Promise<void> => {
+    const validateResult: ValidateResult = SIGNIN_STRATEGY.validate(request);
+    if (validateResult.status !== 200) {
+        response.status(validateResult.status).send();
     }
-    const createdBy = request.ip;
-    if (!createdBy) return response.status(403).send();
 
-    const username: string = request.body.username;
-    const option: RequestInit = {
-        method: "POST",
-        body: JSON.stringify({
-            username: username,
-            password: request.body.password,
-        }),
-        headers: {
-            "Content-Type": "application/json",
-            "X-Created-By": createdBy,
-        },
-    };
+    const signinResult: SigninResult = await SIGNIN_STRATEGY.do(request);
+    if (signinResult.status !== 200) {
+        response.status(signinResult.status).send();
+    }
 
-    const url = `${process.env.AUTH_API_URL}/session/sessions`;
-    fetch(url, option)
-        .then(throwIfNotOk)
-        .then(res => res.json())
-        .then(async data => {
-            const sessionKey: string = data.sessionKey;
-            const expiredAt: Date = new Date(data.expiredAt);
-
-            const userRedisKey: string = `users:${username}`;
-            const existedUserSessionRedisKey = await redisClient.get(userRedisKey);
-            if (existedUserSessionRedisKey) {
-                await redisClient.del(`sessions:${existedUserSessionRedisKey}`);
-            }
-
-            const sessionRedisOption = {
-                PXAT: expiredAt.getTime(),
-            };
-            const sessionRedisKey: string = `sessions:${sessionKey}`;
-            await redisClient.set(sessionRedisKey, username, sessionRedisOption);
-            await redisClient.set(userRedisKey, sessionKey, sessionRedisOption);
-
-            response.cookie("session", sessionKey, {
-                expires: expiredAt,
-                domain: ".soia.asia",
-                path: "/",
-                httpOnly: true,
-                secure: true,
-                sameSite: "lax",
-            });
-            response.status(200).send();
-        })
-        .catch(err => {
-            if (!err.status || err.status === 401 || err.status == 500) console.error(err);
-            response.status(err.status || 500).send(err);
-        });
+    await SIGNIN_STRATEGY.after(signinResult, response);
+    response.send();
 }
