@@ -9,12 +9,14 @@ jest.mock("@/redis/client", () => ({
     del: jest.fn(),
 }));
 
-describe("UserApiSigninStrategy", () => {
-    const strategy: UserApiSigninStrategy = new UserApiSigninStrategy();
+jest.mock("@/configuration/api.config", () => ({
+    apiConfig: {
+        authApiBaseUrl: "http://auth"
+    }
+}));
 
-    beforeEach(() => {
-        process.env.AUTH_API_URL = "http://auth";
-    });
+describe("UserApiSigninStrategy", () => {
+    let strategy: UserApiSigninStrategy = new UserApiSigninStrategy();
 
     describe("validate", () => {
         const validRequest: express.Request = {

@@ -1,9 +1,6 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-.idea
-.vscode
-
+# dot directories
+.*/
 tls/
-requests/
 
 # dependencies
 /node_modules
@@ -11,7 +8,8 @@ requests/
 .pnp.js
 
 # testing
-/coverage
+coverage/
+requests/
 
 # production
 /build
@@ -26,7 +24,6 @@ requests/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # distribution
 /dist

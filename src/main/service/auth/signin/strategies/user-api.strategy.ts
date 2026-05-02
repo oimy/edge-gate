@@ -2,10 +2,11 @@ import express from "express";
 import {SigninStrategy} from "../strategy";
 import {SignedUser, SigninResult, ValidateResult} from "../models";
 import redisClient from "@/redis/client";
+import {apiConfig} from "@/configuration/api.config";
 
 
 export default class UserApiSigninStrategy implements SigninStrategy {
-    private apiBaseUrl: string | undefined = process.env.AUTH_API_URL;
+    private readonly apiBaseUrl: string = apiConfig.authApiBaseUrl;
 
     validate(request: express.Request): ValidateResult {
         if (!request.body || !request.body.username || !request.body.password) {
