@@ -92,6 +92,7 @@ describe("UserSigninStrategy", () => {
         it("should return 200 with user if all valid", async () => {
             // given
             const givenJson = {
+                "userSrl": 1,
                 "sessionKey": "session-key-0",
                 "expiredAt": "2025-12-31T15:00:00.000Z",
             };
@@ -107,6 +108,7 @@ describe("UserSigninStrategy", () => {
             // then
             expect(actualResult.status).toEqual(200);
             const expectUser: SignedUser = {
+                srl: givenJson.userSrl,
                 name: givenRequest.body.username,
                 sessionKey: givenJson.sessionKey,
                 expiredAt: new Date(givenJson.expiredAt),
@@ -155,6 +157,7 @@ describe("UserSigninStrategy", () => {
         const validResult: SigninResult = {
             status: 200,
             user: {
+                srl: 1,
                 name: "test",
                 sessionKey: "session-key-0",
                 expiredAt: new Date("2026-01-01T00:00:00.000Z"),
@@ -193,7 +196,7 @@ describe("UserSigninStrategy", () => {
             const expectSessionRedisOption = {
                 PXAT: validResult.user.expiredAt.getTime(),
             };
-            expect(redisClient.set).toHaveBeenCalledWith(expectSessionRedisKey, validResult.user.name, expectSessionRedisOption);
+            expect(redisClient.set).toHaveBeenCalledWith(expectSessionRedisKey, validResult.user.srl, expectSessionRedisOption);
             const expectUserRedisKey = `users:${validResult.user.name}`;
             expect(redisClient.set).toHaveBeenCalledWith(expectUserRedisKey, validResult.user.sessionKey, expectSessionRedisOption);
 
@@ -230,7 +233,7 @@ describe("UserSigninStrategy", () => {
             const expectSessionRedisOption = {
                 PXAT: validResult.user.expiredAt.getTime(),
             };
-            expect(redisClient.set).toHaveBeenCalledWith(expectNewSessionRedisKey, validResult.user.name, expectSessionRedisOption);
+            expect(redisClient.set).toHaveBeenCalledWith(expectNewSessionRedisKey, validResult.user.srl, expectSessionRedisOption);
         });
     });
 

@@ -6,7 +6,7 @@ import {apiConfig} from "@/configuration/api.config";
 
 
 export default class UserSigninStrategy implements SigninStrategy {
-    private readonly apiBaseUrl: string = apiConfig.authApiBaseUrl;
+    protected readonly apiBaseUrl: string = apiConfig.authApiBaseUrl;
 
     validate(request: express.Request): ValidateResult {
         if (!request.body || !request.body.username || !request.body.password) {
@@ -40,11 +40,12 @@ export default class UserSigninStrategy implements SigninStrategy {
             return {status: res.status};
         }
         const data = await res.json();
-        if (!data || Object.keys(data).length !== 2) {
+        if (!data || Object.keys(data).length !== 3) {
             return {status: 204};
         }
 
         const user: SignedUser = {
+            srl: data.userSrl,
             name: username,
             sessionKey: data.sessionKey,
             expiredAt: new Date(data.expiredAt),
@@ -72,7 +73,7 @@ export default class UserSigninStrategy implements SigninStrategy {
             PXAT: expiredAt.getTime(),
         };
         const sessionRedisKey: string = `sessions:${result.user.sessionKey}`;
-        await redisClient.set(sessionRedisKey, result.user.name, sessionRedisOption);
+        await redisClient.set(sessionRedisKey, result.user.srl, sessionRedisOption);
         await redisClient.set(userRedisKey, result.user.sessionKey, sessionRedisOption);
 
         response.cookie("session", result.user.sessionKey, {
