@@ -4,7 +4,7 @@ import {apiConfig} from "@/configuration/api.config";
 
 const GET_FETCH_OPTIONS: RequestInit = {
     method: "GET",
-};
+} as const;
 
 export class TimeBaseEndpointSupplyStrategy implements EndpointSupplyStrategy {
     private readonly apiBaseUrl: string = apiConfig.authApiBaseUrl;
@@ -24,7 +24,7 @@ export class TimeBaseEndpointSupplyStrategy implements EndpointSupplyStrategy {
             return [];
         }
         const data = await res.json();
-        if (!this.isValidEndpointArray(data)) {
+        if (!this.isValidEndpointsType(data)) {
             console.error("invalid data format received from api");
             return [];
         }
@@ -32,7 +32,7 @@ export class TimeBaseEndpointSupplyStrategy implements EndpointSupplyStrategy {
         return data;
     }
 
-    private isValidEndpointArray(data: any): data is Endpoint[] {
+    private isValidEndpointsType(data: any): data is Endpoint[] {
         if (!Array.isArray(data)) return false;
         if (data.length === 0) return true;
 

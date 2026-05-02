@@ -1,7 +1,8 @@
-import UserApiSigninStrategy from "@/service/signin/strategies/user-api.strategy";
+import UserSigninStrategy from "@/service/signin/strategies/user.strategy";
 import express, {Request} from "express";
 import {SignedUser, SigninResult, ValidateResult} from "@/service/signin/models";
 import redisClient from "@/redis/client";
+import {SigninStrategy} from "@/service/signin/strategy";
 
 jest.mock("@/redis/client", () => ({
     get: jest.fn(),
@@ -11,12 +12,12 @@ jest.mock("@/redis/client", () => ({
 
 jest.mock("@/configuration/api.config", () => ({
     apiConfig: {
-        authApiBaseUrl: "http://auth"
-    }
+        authApiBaseUrl: "http://auth",
+    },
 }));
 
-describe("UserApiSigninStrategy", () => {
-    let strategy: UserApiSigninStrategy = new UserApiSigninStrategy();
+describe("UserSigninStrategy", () => {
+    let strategy: SigninStrategy = new UserSigninStrategy();
 
     describe("validate", () => {
         const validRequest: express.Request = {

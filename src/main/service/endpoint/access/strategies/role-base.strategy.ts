@@ -2,7 +2,7 @@ import {EndpointAccessStrategy} from "@/service/endpoint/access/strategy";
 import {Endpoint, EndpointMethod} from "@/service/endpoint/models";
 import {EndpointRoleCache} from "@/service/endpoint/access/cache";
 
-class RoleBaseEndpointAccessStrategy implements EndpointAccessStrategy {
+export class RoleBaseEndpointAccessStrategy implements EndpointAccessStrategy {
     private cache: EndpointRoleCache = new EndpointRoleCache();
 
     verify(method: EndpointMethod, path: string, userRoleNames: string[]): boolean {
@@ -20,5 +20,4 @@ class RoleBaseEndpointAccessStrategy implements EndpointAccessStrategy {
     updateEndpoints(endpoints: Endpoint[]): void {
         endpoints.forEach(this.cache.set);
     }
-
 }

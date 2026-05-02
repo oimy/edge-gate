@@ -5,7 +5,7 @@ import redisClient from "@/redis/client";
 import {apiConfig} from "@/configuration/api.config";
 
 
-export default class UserApiSigninStrategy implements SigninStrategy {
+export default class UserSigninStrategy implements SigninStrategy {
     private readonly apiBaseUrl: string = apiConfig.authApiBaseUrl;
 
     validate(request: express.Request): ValidateResult {
