@@ -8,7 +8,7 @@ import service from "@/service";
 
 async function startServer() {
     await redisClient.connect();
-    console.log("Redis connected successfully");
+    console.log("[redis] connected successfully");
 
     await service.initialize();
 

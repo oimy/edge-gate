@@ -7,7 +7,7 @@ export const getAuthenticationStrategy = () => authenticationStrategy;
 export default async (request: express.Request, response: express.Response, next: express.NextFunction) => {
     const isAuthenticated: boolean = await authenticationStrategy.authenticate(request);
     if (!isAuthenticated) {
-        response.send(403).send();
+        response.status(403).send();
         return;
     }
     next();
