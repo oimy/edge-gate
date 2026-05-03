@@ -10,7 +10,6 @@ export class SessionAuthenticationStrategy implements AuthenticationStrategy {
         }
 
         const sessionRedisKey = `sessions:${sessionKey}`;
-        const managedSessionKey: string | null = await redisClient.get(sessionRedisKey);
-        return managedSessionKey !== null;
+        return (await redisClient.get(sessionRedisKey)) !== null;
     }
 }

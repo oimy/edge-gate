@@ -3,6 +3,7 @@ export interface ValidateResult {
 }
 
 export interface SignedUser {
+    srl: number;
     name: string;
     sessionKey: string;
     expiredAt: Date;

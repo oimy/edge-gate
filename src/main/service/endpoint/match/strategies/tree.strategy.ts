@@ -33,7 +33,7 @@ export class TreeEndpointMatchStrategy implements EndpointMatchStrategy {
 
         const tree: PathTree | undefined = this.trees[index];
         if (!tree) return undefined;
-        let node: PathNode | undefined = tree.getPath(method.valueOf());
+        let node: PathNode | undefined = tree.getPath(method);
         if (!node) return undefined;
 
         for (const part of parts) {
@@ -52,15 +52,14 @@ export class TreeEndpointMatchStrategy implements EndpointMatchStrategy {
         return node.endpoint;
     }
 
-    insert(endpoint: Endpoint): void {
+    upsertEndpoint(endpoint: Endpoint): void {
         const parts: string[] = endpoint.path.split('/');
         if (parts.length === 0 || parts.some(part => !part)) {
             return;
         }
         const tree: PathTree = this.trees[endpoint.serverSrl] ?? (this.trees[endpoint.serverSrl] = new PathTree());
-        let node: PathNode = tree.getPath(endpoint.method.valueOf()) ??
-            (tree.setPath(endpoint.method.valueOf(), new PathNode()));
-
+        let node: PathNode = tree.getPath(endpoint.method) ??
+            (tree.setPath(endpoint.method, new PathNode()));
         for (const part of parts) {
             let childNode: PathNode | undefined = node.children.get(part);
             let partName = part;

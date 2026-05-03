@@ -2,17 +2,13 @@ import {RedirectStrategy} from "@/service/redirect/strategy";
 import express from "express";
 import {Server} from "@/service/server/models";
 import {RedirectResult} from "@/service/redirect/models";
-
-interface Path {
-    server: string;
-    main: string;
-}
+import {parsePath, Path} from "@/service/utils/path.util";
 
 export class SimpleRedirectStrategy implements RedirectStrategy {
     private serverUrlMap: Map<string, string> = new Map();
 
     async redirect(request: express.Request): Promise<RedirectResult> {
-        const path = this.parsePath(request.path);
+        const path: Path | null = parsePath(request.path);
         if (!path) {
             return {status: 404};
         }
@@ -21,7 +17,7 @@ export class SimpleRedirectStrategy implements RedirectStrategy {
             return {status: 404};
         }
         const queryString = new URLSearchParams(request.query as any).toString();
-        const url = `${baseUrl}${path.main}${queryString ? `?${queryString}` : ''}`;
+        const url = `${baseUrl}/${path.main}${queryString ? `?${queryString}` : ''}`;
         const headers: Record<string, string> = {};
         let body: string | null = null;
         headers["X-Created-By"] = "admin";
@@ -51,16 +47,5 @@ export class SimpleRedirectStrategy implements RedirectStrategy {
     upsertServer(server: Server): void {
         this.serverUrlMap.set(`${server.name}/v${server.version}`, server.url);
     }
-
-    private parsePath = (rawPath: string): Path | null => {
-        const versionIndex = rawPath.indexOf('/', 1);
-        const mainIndex = rawPath.indexOf('/', versionIndex + 1);
-        if (mainIndex < 0) return null;
-
-        return {
-            server: rawPath.substring(0, mainIndex),
-            main: rawPath.substring(mainIndex + 1),
-        };
-    };
 
 }

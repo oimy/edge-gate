@@ -197,7 +197,7 @@ describe("UserSigninStrategy", () => {
                 PXAT: validResult.user.expiredAt.getTime(),
             };
             expect(redisClient.set).toHaveBeenCalledWith(expectSessionRedisKey, validResult.user.srl, expectSessionRedisOption);
-            const expectUserRedisKey = `users:${validResult.user.name}`;
+            const expectUserRedisKey = `users:${validResult.user.srl}`;
             expect(redisClient.set).toHaveBeenCalledWith(expectUserRedisKey, validResult.user.sessionKey, expectSessionRedisOption);
 
             const expectCookieName = "session";

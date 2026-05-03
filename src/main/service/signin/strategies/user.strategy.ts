@@ -63,7 +63,7 @@ export default class UserSigninStrategy implements SigninStrategy {
 
         const expiredAt: Date = new Date(result.user.expiredAt);
 
-        const userRedisKey: string = `users:${result.user.name}`;
+        const userRedisKey: string = `users:${result.user.srl}`;
         const existedUserSessionKey = await redisClient.get(userRedisKey);
         if (existedUserSessionKey) {
             await redisClient.del(`sessions:${existedUserSessionKey}`);

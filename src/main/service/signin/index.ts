@@ -1,9 +1,9 @@
 import express from "express";
 import {SigninStrategy} from "./strategy";
-import UserSigninStrategy from "./strategies/user.strategy";
 import {SigninResult, ValidateResult} from "./models";
+import {RoleUserSigninStrategy} from "@/service/signin/strategies/role-user.strategy";
 
-const strategy: SigninStrategy = new UserSigninStrategy();
+const strategy: SigninStrategy = new RoleUserSigninStrategy();
 export const getStrategy = () => strategy;
 
 export default async (request: express.Request, response: express.Response): Promise<void> => {

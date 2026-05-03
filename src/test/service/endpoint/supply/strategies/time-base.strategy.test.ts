@@ -32,7 +32,7 @@ describe("TimeBaseEndpointSupplyStrategy", () => {
 
             // then
             expect(actualEndpoints).toEqual(givenEndpoints);
-            const expectLastCheckedTimeParameter: string = "http://auth/server/role-endpoints?afterModifiedAt=1989-12-31T15%3A00%3A00.000Z"
+            const expectLastCheckedTimeParameter: string = "http://auth/server/endpoints?afterModifiedAt=1989-12-31T15%3A00%3A00.000Z"
             expect(global.fetch).toHaveBeenCalledWith(expectLastCheckedTimeParameter, {method: "GET"});
         });
 

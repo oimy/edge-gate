@@ -1,6 +1,7 @@
 import {Endpoint} from "@/service/endpoint/models";
 import {EndpointSupplyStrategy} from "@/service/endpoint/supply/strategy";
 import {apiConfig} from "@/configuration/api.config";
+import {parseMethod} from "@/service/utils/path.util";
 
 const GET_FETCH_OPTIONS: RequestInit = {
     method: "GET",
@@ -17,7 +18,7 @@ export class TimeBaseEndpointSupplyStrategy implements EndpointSupplyStrategy {
         };
 
         const query: string = new URLSearchParams(paramMap).toString();
-        const url = `${this.apiBaseUrl}/server/role-endpoints?${query}`;
+        const url = `${this.apiBaseUrl}/server/endpoints?${query}`;
         const res: Response = await fetch(url, GET_FETCH_OPTIONS);
         if (!res.ok) {
             console.error("failed to fetch endpoints");
@@ -39,6 +40,8 @@ export class TimeBaseEndpointSupplyStrategy implements EndpointSupplyStrategy {
         return data.every((item: any) => {
             if (typeof item.serverSrl !== "number") return false;
             if (typeof item.method !== "string") return false;
+            item.method = parseMethod(item.method);
+            if (item.method == undefined) return false;
             if (typeof item.path !== "string") return false;
             if (!Array.isArray(item.roles)) return false;
             if (item.roles.length === 0) return true;

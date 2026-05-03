@@ -26,7 +26,7 @@ describe("TreeEndpointMatchStrategy", () => {
 
             // when
             for (const givenEndpoint of givenEndpoints) {
-                strategy.insert(givenEndpoint);
+                strategy.upsertEndpoint(givenEndpoint);
             }
 
             // then
@@ -60,7 +60,7 @@ describe("TreeEndpointMatchStrategy", () => {
 
             // when
             for (const givenEndpoint of givenEndpoints) {
-                strategy.insert(givenEndpoint);
+                strategy.upsertEndpoint(givenEndpoint);
             }
 
             // then
@@ -109,7 +109,7 @@ describe("TreeEndpointMatchStrategy", () => {
 
             // when
             for (const givenEndpoint of givenEndpoints) {
-                strategy.insert(givenEndpoint);
+                strategy.upsertEndpoint(givenEndpoint);
             }
 
             // then
@@ -143,7 +143,7 @@ describe("TreeEndpointMatchStrategy", () => {
 
             // when
             for (const givenEndpoint of givenEndpoints) {
-                strategy.insert(givenEndpoint);
+                strategy.upsertEndpoint(givenEndpoint);
             }
 
             // then
@@ -172,7 +172,7 @@ describe("TreeEndpointMatchStrategy", () => {
 
         beforeEach(() => {
             for (const givenEndpoint of givenEndpoints) {
-                strategy.insert(givenEndpoint);
+                strategy.upsertEndpoint(givenEndpoint);
             }
         });
 

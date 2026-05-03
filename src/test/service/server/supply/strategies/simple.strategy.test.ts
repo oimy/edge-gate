@@ -3,8 +3,8 @@ import {Server} from "@/service/server/models";
 
 jest.mock("@/configuration/api.config", () => ({
     apiConfig: {
-        authApiBaseUrl: "http://auth"
-    }
+        authApiBaseUrl: "http://auth",
+    },
 }));
 
 describe("SimpleServerSupplyStrategy", () => {
@@ -14,8 +14,18 @@ describe("SimpleServerSupplyStrategy", () => {
         it("should return servers on success", async () => {
             // given
             const givenServers: Server[] = [
-                {name: "server1", version: 1, url: "http://s1"},
-                {name: "server2", version: 2, url: "http://s2"}
+                {
+                    srl: 1,
+                    name: "server1",
+                    version: 1,
+                    url: "http://s1",
+                },
+                {
+                    srl: 1,
+                    name: "server2",
+                    version: 2,
+                    url: "http://s2",
+                },
             ];
             const givenResponse = {
                 ok: true,
@@ -101,21 +111,33 @@ describe("SimpleServerSupplyStrategy", () => {
         it("should return false if item properties have wrong types", async () => {
             // given
             const givenData = [
-                {name: 1, version: 1, url: "http://s1"},
-                {name: "s2", version: "1", url: "http://s2"},
-                {name: "s3", version: 1, url: 1}
+                {
+                    name: 1,
+                    version: 1,
+                    url: "http://s1",
+                },
+                {
+                    name: "s2",
+                    version: "1",
+                    url: "http://s2",
+                },
+                {
+                    name: "s3",
+                    version: 1,
+                    url: 1,
+                },
             ];
-            
-            for(const item of givenData) {
+
+            for (const item of givenData) {
                 const givenResponse = {
                     ok: true,
                     json: jest.fn().mockResolvedValue([item]),
                 };
                 global.fetch = jest.fn().mockResolvedValue(givenResponse);
-                
+
                 // when
                 const actualServers = await strategy.supply();
-                
+
                 // then
                 expect(actualServers).toEqual([]);
             }

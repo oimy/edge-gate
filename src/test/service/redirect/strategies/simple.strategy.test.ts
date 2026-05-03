@@ -52,7 +52,8 @@ describe("SimpleRedirectStrategy", () => {
         it("should return 500 if fetch fails", async () => {
             // given
             const givenServer: Server = {
-                name: "/server",
+                srl: 1,
+                name: "server",
                 version: 1,
                 url: "http://server"
             };
@@ -75,7 +76,8 @@ describe("SimpleRedirectStrategy", () => {
         it("should return response status and response on success", async () => {
             // given
             const givenServer: Server = {
-                name: "/server",
+                srl: 1,
+                name: "server",
                 version: 1,
                 url: "http://server"
             };
@@ -114,7 +116,8 @@ describe("SimpleRedirectStrategy", () => {
         it("should handle request without query string", async () => {
             // given
             const givenServer: Server = {
-                name: "/server",
+                srl: 1,
+                name: "server",
                 version: 1,
                 url: "http://server"
             };
@@ -145,7 +148,8 @@ describe("SimpleRedirectStrategy", () => {
         it("should update serverUrlMap", async () => {
             // given
             const givenServer: Server = {
-                name: "/server",
+                srl: 1,
+                name: "server",
                 version: 1,
                 url: "http://server"
             };

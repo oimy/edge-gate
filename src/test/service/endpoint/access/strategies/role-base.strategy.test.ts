@@ -61,7 +61,7 @@ describe("RoleBaseEndpointAccessStrategy", () => {
         });
     });
 
-    describe("updateEndpoint", () => {
+    describe("upsertEndpoint", () => {
         it("should call cache.set with the endpoint", () => {
             // given
             const givenEndpoint: Endpoint = {
@@ -72,14 +72,14 @@ describe("RoleBaseEndpointAccessStrategy", () => {
             };
 
             // when
-            strategy.updateEndpoint(givenEndpoint);
+            strategy.upsertEndpoint(givenEndpoint);
 
             // then
             expect(mockCache.set).toHaveBeenCalledWith(givenEndpoint);
         });
     });
 
-    describe("updateEndpoints", () => {
+    describe("upsertEndpoints", () => {
         it("should call cache.set for each endpoint", () => {
             // given
             const givenEndpoints: Endpoint[] = [
@@ -88,7 +88,7 @@ describe("RoleBaseEndpointAccessStrategy", () => {
             ];
 
             // when
-            strategy.updateEndpoints(givenEndpoints);
+            strategy.upsertEndpoints(givenEndpoints);
 
             // then
             expect(mockCache.set).toHaveBeenCalledTimes(2);

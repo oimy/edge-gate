@@ -4,6 +4,6 @@ export interface EndpointMatchStrategy {
 
     match(serverSrl: number, method: EndpointMethod, path: string): Endpoint | undefined;
 
-    insert(endpoint: Endpoint): void;
+    upsertEndpoint(endpoint: Endpoint): void;
 
 }

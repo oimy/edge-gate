@@ -13,11 +13,11 @@ export class RoleBaseEndpointAccessStrategy implements EndpointAccessStrategy {
         return userRoleNames.some(roleName => endpointRoleNames.has(roleName));
     }
 
-    updateEndpoint(endpoint: Endpoint): void {
+    upsertEndpoint(endpoint: Endpoint): void {
         this.cache.set(endpoint);
     }
 
-    updateEndpoints(endpoints: Endpoint[]): void {
+    upsertEndpoints(endpoints: Endpoint[]): void {
         endpoints.forEach(this.cache.set);
     }
 }

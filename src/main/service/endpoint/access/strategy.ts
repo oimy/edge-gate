@@ -5,8 +5,8 @@ export interface EndpointAccessStrategy {
 
     verify(method: EndpointMethod, path: string, userRoleNames: string[]): boolean;
 
-    updateEndpoint(endpoint: Endpoint): void;
+    upsertEndpoint(endpoint: Endpoint): void;
 
-    updateEndpoints(endpoints: Endpoint[]): void;
+    upsertEndpoints(endpoints: Endpoint[]): void;
 
 }
