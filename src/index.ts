@@ -11,6 +11,7 @@ async function startServer() {
     console.log("[redis] connected successfully");
 
     await service.initialize();
+    console.log("[server] initialize successfully");
 
     const server: Server = createServer(app);
     server.listen(process.env.PORT);
