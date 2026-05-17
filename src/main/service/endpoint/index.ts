@@ -12,6 +12,7 @@ const supplyStrategy: EndpointSupplyStrategy = new TimeBaseEndpointSupplyStrateg
 const matchStrategy: EndpointMatchStrategy = new TreeEndpointMatchStrategy();
 service.addInitializable(async () => {
     const endpoints: Endpoint[] = await supplyStrategy.supply();
+    console.debug("endpoints fetched from api :", endpoints.length);
     for (const endpoint of endpoints) {
         accessStrategy.upsertEndpoint(endpoint);
         matchStrategy.upsertEndpoint(endpoint);

@@ -35,7 +35,6 @@ export class SimpleRedirectStrategy implements RedirectStrategy {
         try {
             res = await fetch(url, option);
         } catch (err) {
-            console.error(err);
             return {status: 500};
         }
         return {

@@ -15,6 +15,7 @@ async function startServer() {
 
     const server: Server = createServer(app);
     server.listen(process.env.PORT);
+    console.log("[server] server listen on port :", process.env.PORT);
 }
 
 startServer()
