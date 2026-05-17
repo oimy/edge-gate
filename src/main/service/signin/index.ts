@@ -10,11 +10,13 @@ export default async (request: express.Request, response: express.Response): Pro
     const validateResult: ValidateResult = strategy.validate(request);
     if (validateResult.status !== 200) {
         response.status(validateResult.status).send();
+        return;
     }
 
     const signinResult: SigninResult = await strategy.do(request);
     if (signinResult.status !== 200) {
         response.status(signinResult.status).send();
+        return;
     }
 
     await strategy.after(signinResult, response);
